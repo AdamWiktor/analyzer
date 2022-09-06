@@ -1,6 +1,9 @@
 package com.analytics.analyzer.services
 
 import com.aerospike.client.Value
+import com.analytics.analyzer.objects.Action
+import com.analytics.analyzer.objects.Device
+import com.analytics.analyzer.objects.ProductInfo
 import com.analytics.analyzer.repositories.AerospikeTagsRepository
 import com.analytics.analyzer.objects.UserTag
 import org.springframework.beans.factory.annotation.Autowired
