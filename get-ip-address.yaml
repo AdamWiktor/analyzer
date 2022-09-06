@@ -1,0 +1,60 @@
+---
+- name: Get IP addresses
+  any_errors_fatal: true
+  hosts: aero
+  remote_user: root
+
+  tasks:
+    - name: Get IP addresses
+      become: true
+      become_user: root
+      shell: ip -f inet addr show eth0 | grep inet | awk '{print $2}' | cut -f1 -d'/'
+      register: ip_addr
+      failed_when: ip_addr.rc != 0
+    - debug:
+        var: ip_addr.stdout_lines
+
+
+HostName st115vm101.rtb-lab.pl
+HostName st115vm102.rtb-lab.pl
+HostName st115vm103.rtb-lab.pl
+HostName st115vm104.rtb-lab.pl
+HostName st115vm105.rtb-lab.pl
+HostName st115vm106.rtb-lab.pl
+HostName st115vm107.rtb-lab.pl
+HostName st115vm108.rtb-lab.pl
+HostName st115vm109.rtb-lab.pl
+HostName st115vm110.rtb-lab.pl
+  
+  G
+  
+Host rozpr01
+  User st115
+  HostName st115vm101.rtb-lab.pl
+Host rozpr02
+  User st115
+  HostName st115vm102.rtb-lab.pl
+Host rozpr03
+  User st115
+  HostName st115vm103.rtb-lab.pl
+Host rozpr04
+  User st115
+  HostName st115vm104.rtb-lab.pl
+Host rozpr05
+  User st115
+  HostName st115vm105.rtb-lab.pl
+Host rozpr06
+  User st115
+  HostName st115vm106.rtb-lab.pl
+Host rozpr07
+  User st115
+  HostName st115vm107.rtb-lab.pl
+Host rozpr08
+  User st115
+  HostName st115vm108.rtb-lab.pl
+Host rozpr09
+  User st115
+  HostName st115vm109.rtb-lab.pl
+Host rozpr10
+  User st115
+  HostName st115vm110.rtb-lab.pl

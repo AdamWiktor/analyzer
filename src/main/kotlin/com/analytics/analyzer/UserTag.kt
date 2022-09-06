@@ -1,20 +1,23 @@
 package com.analytics.analyzer
 
+import com.aerospike.client.query.IndexType
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.apache.tomcat.util.security.MD5Encoder.encode
+import org.springframework.data.aerospike.annotation.Indexed
+import org.springframework.data.aerospike.mapping.Document
+import org.springframework.data.annotation.Id
 import java.security.MessageDigest
+import java.util.UUID
 
+@Document(collection = "tags")
 data class UserTag(
     val time: String,
-    val cookie: String,
+    @Indexed(type = IndexType.STRING) val cookie: String,
     val country: String,
     val device: Device,
     val action: Action,
     val origin: String,
-    @JsonProperty("product_info") val productInfo: ProductInfo
+    @JsonProperty("product_info") val productInfo: ProductInfo,
+//    @Id @JsonIgnore val id: String = UUID.randomUUID().toString()
 )
-
-private val MD5: MessageDigest = MessageDigest.getInstance("md5")
-
-fun getHash(userTag: UserTag): String = encode(MD5.digest(userTag.cookie.toByteArray())) + "_" + userTag.cookie
-fun getHash(string: String): String = encode(MD5.digest(string.toByteArray()))

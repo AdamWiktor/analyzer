@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class AnalyzerApplication
 
 fun main(args: Array<String>) {
-	runApplication<AnalyzerApplication>(*args)
+    runApplication<AnalyzerApplication>(*args)
 }

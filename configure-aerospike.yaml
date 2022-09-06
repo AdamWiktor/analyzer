@@ -1,0 +1,43 @@
+---
+- name: Aerospike configuration
+  any_errors_fatal: true
+  hosts: aero
+  remote_user: root
+
+  tasks:
+    - name: Stop Aerospike
+      become: true
+      become_user: root
+      shell: sudo systemctl stop aerospike
+      register: aero_stop
+      failed_when: aero_stop.rc != 0
+    - name: Upload Aerospike config
+      become: true
+      become_user: root
+      copy:
+        src: ./aerospike.conf
+        dest: aerospike.conf
+    - name: Create Aerospike log directory
+      become: true
+      become_user: root
+      shell: sudo mkdir -p /var/log/aerospike
+      register: aero_log
+      failed_when: aero_log.rc != 0
+    - name: Modify Aerospike config
+      become: true
+      become_user: root
+      shell: sed "s/<IP_ADDRESS_OF_THE_CURRENT_SERVER>/$(ip -f inet addr show eth0 | grep inet | awk '{print $2}' | cut -f1 -d'/')/" aerospike.conf >/etc/aerospike/aerospike.conf
+      register: aero_modify
+      failed_when: aero_modify.rc != 0
+    - name: Run Aerospike
+      become: true
+      become_user: root
+      shell: sudo systemctl start aerospike
+      register: aero_run
+      failed_when: aero_run.rc != 0
+    - name: Check Aerospike status
+      become: true
+      become_user: root
+      shell: sudo systemctl status aerospike
+      register: aero_status
+      failed_when: aero_status.rc != 0

@@ -1,0 +1,29 @@
+---
+- name: Aerospike Installation
+  any_errors_fatal: true
+  hosts: aero
+  remote_user: root
+
+  tasks:
+    - name: Download Aerospike
+      become: true
+      become_user: root
+      command: wget -O aerospike.tgz https://download.aerospike.com/download/server/6.1.0.1/artifact/ubuntu20
+      register: wget_download
+      failed_when: wget_download.rc != 0
+
+    - name: Unpack archive
+      become: true
+      become_user: root
+      command: tar xzvf aerospike.tgz
+      register: tar_unpack
+      failed_when: tar_unpack.rc != 0
+
+    - name: Install Aerospike
+      become: true
+      become_user: root
+      command:
+          cmd: sudo ./asinstall
+          chdir: aerospike-server-community-6.1.0.1-ubuntu20.04/
+      register: installation
+      failed_when: installation.rc != 0
