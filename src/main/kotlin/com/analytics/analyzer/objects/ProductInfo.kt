@@ -1,4 +1,4 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.objects
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

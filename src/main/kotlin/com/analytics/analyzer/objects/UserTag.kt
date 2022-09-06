@@ -1,14 +1,9 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.objects
 
 import com.aerospike.client.query.IndexType
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.apache.tomcat.util.security.MD5Encoder.encode
 import org.springframework.data.aerospike.annotation.Indexed
 import org.springframework.data.aerospike.mapping.Document
-import org.springframework.data.annotation.Id
-import java.security.MessageDigest
-import java.util.UUID
 
 @Document(collection = "tags")
 data class UserTag(

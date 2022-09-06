@@ -1,11 +1,11 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.configuration
 
 import com.aerospike.client.Host
-import com.aerospike.client.lua.LuaAerospikeLib.log
 import com.aerospike.client.query.IndexType
+import com.analytics.analyzer.objects.UserTag
+import com.analytics.analyzer.repositories.AerospikeTagsRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

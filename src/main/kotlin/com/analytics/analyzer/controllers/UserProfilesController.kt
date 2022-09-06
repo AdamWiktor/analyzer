@@ -1,5 +1,7 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.controllers
 
+import com.analytics.analyzer.objects.Profile
+import com.analytics.analyzer.services.TagsService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 private val logger = KotlinLogging.logger { }
 
 @RestController
-class UserProfilesResource {
+class UserProfilesController {
 
     @Autowired
     lateinit var tagsService: TagsService

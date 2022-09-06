@@ -1,4 +1,4 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.configuration
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding

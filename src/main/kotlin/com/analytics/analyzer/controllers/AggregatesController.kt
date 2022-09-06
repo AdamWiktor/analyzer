@@ -1,14 +1,12 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.controllers
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class AggregatesResource {
+class AggregatesController {
 
     @PostMapping(path = ["/aggregates"])
     fun postAggregates(@RequestBody node: JsonNode): JsonNode {

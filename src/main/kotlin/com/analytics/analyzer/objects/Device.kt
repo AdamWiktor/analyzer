@@ -1,4 +1,4 @@
-package com.analytics.analyzer
+package com.analytics.analyzer.objects
 
 enum class Device {
     PC,
