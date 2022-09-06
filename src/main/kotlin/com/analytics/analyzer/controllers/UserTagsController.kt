@@ -1,6 +1,6 @@
 package com.analytics.analyzer.controllers
 
-import com.analytics.analyzer.services.TagsService
+import com.analytics.analyzer.services.ProfilesService
 import com.analytics.analyzer.objects.UserTag
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,12 +16,12 @@ private val logger = KotlinLogging.logger {}
 class UserTagsController {
 
     @Autowired
-    lateinit var tagsService: TagsService
+    lateinit var profilesService: ProfilesService
 
     @PostMapping(path = ["/user_tags"])
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun postUserTags(@RequestBody userTag: UserTag) {
-        logger.info { "New user tag: $userTag" }
-        tagsService.addUserTag(userTag)
+//        logger.info { "New user tag: $userTag" }
+        profilesService.addUserTagToService(userTag)
     }
 }

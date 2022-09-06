@@ -1,10 +1,12 @@
 package com.analytics.analyzer.objects
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ProductInfo(
-    @JsonProperty("product_id") val productId: String,
-    @JsonProperty("brand_id") val brandId: String,
-    @JsonProperty("category_id") val categoryId: String,
+    @SerialName("product_id") val productId: Int,
+    @SerialName("brand_id") val brandId: String,
+    @SerialName("category_id") val categoryId: String,
     val price: Int
 )

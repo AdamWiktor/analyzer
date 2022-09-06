@@ -1,6 +1,6 @@
 package com.analytics.analyzer.controllers
 
-import com.analytics.analyzer.services.TagsService
+import com.analytics.analyzer.services.ProfilesService
 import com.fasterxml.jackson.databind.JsonNode
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +14,7 @@ private val logger = KotlinLogging.logger { }
 class AggregatesController {
 
     @Autowired
-    lateinit var tagsService: TagsService
+    lateinit var tagsService: ProfilesService
 
     @PostMapping(path = ["/aggregates"])
     fun postAggregates(@RequestBody node: JsonNode): JsonNode {
