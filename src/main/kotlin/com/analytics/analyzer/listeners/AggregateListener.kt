@@ -3,7 +3,7 @@ package com.analytics.analyzer.listeners
 import com.analytics.analyzer.objects.UserTagEvent
 import com.analytics.analyzer.objects.AggregateKey
 import com.analytics.analyzer.objects.AggregateValue
-import com.analytics.analyzer.singletons.AggregatesArray
+import com.analytics.analyzer.singletons.AggregatesSingleton
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
@@ -28,7 +28,7 @@ class AggregateListener {
 
     @KafkaHandler
     fun handleUserTagEvent(message: String) {
-        if (!AggregatesArray.processingBegan)
+        if (!AggregatesSingleton.processingBegan)
             beginProcessing()
         else
             maybeAdvanceTimeWindow()
@@ -40,7 +40,7 @@ class AggregateListener {
         } else if (timeDiff < TIME_WINDOW_DURATION_SECONDS) {
             currentWrite
         } else {
-            AggregatesArray.nextIndex(currentWrite)
+            AggregatesSingleton.nextIndex(currentWrite)
         }
         val origins = arrayListOf(event.origin, null)
         val brandIds = arrayListOf(event.brandId, null)
@@ -49,10 +49,10 @@ class AggregateListener {
             for (brandId in brandIds) {
                 for (categoryId in categoryIds) {
                     val key = AggregateKey((event.timeSeconds / 60) * 60, event.action, origin, brandId, categoryId)
-                    val value = AggregatesArray.aggregates[write][key] ?: AggregateValue(0, 0)
+                    val value = AggregatesSingleton.buckets[write][key] ?: AggregateValue(0, 0)
                     value.count++
                     value.sumPrice += event.price
-                    AggregatesArray.aggregates[currentWrite][key] = value
+                    AggregatesSingleton.buckets[currentWrite][key] = value
                 }
             }
         }
@@ -60,7 +60,7 @@ class AggregateListener {
 
     private fun beginProcessing() {
         currentWriteTimeWindow = floor(Instant.now().epochSecond) - TIME_WINDOW_DURATION_SECONDS
-        AggregatesArray.processingBegan = true
+        AggregatesSingleton.processingBegan = true
     }
 
     private fun maybeAdvanceTimeWindow() {
@@ -69,6 +69,6 @@ class AggregateListener {
             return
         val currentWriteDiff = ((newWriteTime - currentWriteTimeWindow) / TIME_WINDOW_DURATION_SECONDS).toInt()
         currentWriteTimeWindow = newWriteTime
-        currentWrite = AggregatesArray.advanceIndex(currentWrite, currentWriteDiff)
+        currentWrite = AggregatesSingleton.advanceIndex(currentWrite, currentWriteDiff)
     }
 }
