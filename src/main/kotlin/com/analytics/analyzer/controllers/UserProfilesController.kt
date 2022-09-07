@@ -24,7 +24,7 @@ class UserProfilesController {
     fun postUserProfiles(
         @PathVariable cookie: String,
         @RequestParam(name = "time_range") timeRange: String,
-        @RequestParam(defaultValue = "200") limit: Long
+        @RequestParam(defaultValue = "200") limit: Int
     ): Profile {
 //        logger.info { "New profile request: $cookie, $timeRange, $limit" }
         val timeRanges = timeRange.split("_")
@@ -40,13 +40,13 @@ class UserProfilesController {
         userTags: List<UserTag>,
         begin: Long,
         end: Long,
-        limit: Long
+        limit: Int
     ): List<UserTag> {
-        return userTags.stream()
+        return userTags
+            .asSequence()
             .filter { it.timeMillis >= begin }
             .filter { it.timeMillis < end }
-//            .sorted(Comparator.comparingLong(UserTag::timeMillis).reversed())
-            .limit(limit)
+            .take(limit)
             .toList()
     }
 }

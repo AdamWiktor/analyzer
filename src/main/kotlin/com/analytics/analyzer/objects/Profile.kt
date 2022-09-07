@@ -1,6 +1,5 @@
 package com.analytics.analyzer.objects
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString

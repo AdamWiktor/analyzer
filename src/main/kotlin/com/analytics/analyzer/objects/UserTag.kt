@@ -15,4 +15,8 @@ data class UserTag(
     val origin: String,
     @SerialName("product_info") val productInfo: ProductInfo,
     @JsonIgnore val timeMillis: Long = Instant.parse(time).toEpochMilli()
-)
+) {
+    fun toEvent(): UserTagEvent {
+        return UserTagEvent(timeMillis / 1000, action, origin, productInfo.brandId, productInfo.categoryId, productInfo.price)
+    }
+}

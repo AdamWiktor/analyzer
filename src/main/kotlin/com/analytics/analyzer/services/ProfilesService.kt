@@ -14,7 +14,6 @@ import org.springframework.dao.RecoverableDataAccessException
 import org.springframework.data.aerospike.core.AerospikeTemplate
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
-import java.util.stream.Stream
 
 private val logger = KotlinLogging.logger {}
 
@@ -62,11 +61,9 @@ class ProfilesService {
     }
 
     private fun addUserTag(userTags: List<UserTag>, userTag: UserTag): List<UserTag> {
-        return Stream.concat(userTags.stream(), Stream.of(userTag))
-            .sorted(Comparator.comparingLong(UserTag::timeMillis).reversed())
-            .limit(250)
+        return (userTags.asSequence() + sequenceOf(userTag))
+            .sortedWith(Comparator.comparingLong(UserTag::timeMillis).reversed())
+            .take(250)
             .toList()
     }
-
 }
-
