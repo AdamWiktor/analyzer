@@ -1,0 +1,13 @@
+---
+- name: Stop analyzer
+  any_errors_fatal: true
+  hosts: analyzer
+  remote_user: root
+
+  tasks:
+    - name: Stop analyzer
+      become: true
+      become_user: root
+      shell: cd analyzer && ./stop-analyzer.sh
+      register: stop
+      failed_when: stop.rc != 0

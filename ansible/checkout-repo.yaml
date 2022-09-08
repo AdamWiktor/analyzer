@@ -1,0 +1,20 @@
+---
+- name: Checkout repository
+  any_errors_fatal: true
+  hosts: analyzer
+  remote_user: root
+
+  tasks:
+    - name: Checkout
+      become: true
+      become_user: root
+      command: git clone https://github.com/AdamWiktor/analyzer.git
+      register: git
+      failed_when: git.rc != 0
+
+    - name: Install java
+      become: true
+      become_user: root
+      command: apt install -y openjdk-17-jdk-headless
+      register: apt
+      failed_when: apt.rc != 0

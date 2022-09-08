@@ -1,0 +1,27 @@
+---
+- name: Update analyzer
+  any_errors_fatal: true
+  hosts: analyzer
+  remote_user: root
+
+  tasks:
+    - name: Update repository
+      become: true
+      become_user: root
+      shell: cd analyzer && git pull
+      register: git
+      failed_when: git.rc != 0
+
+    - name: Create docker image
+      become: true
+      become_user: root
+      shell: cd analyzer && ./setup-analyzer.sh
+      register: setup
+      failed_when: setup.rc != 0
+
+    - name: Run analyzer
+      become: true
+      become_user: root
+      shell: cd analyzer && ./start-analyzer.sh
+      register: start
+      failed_when: start.rc != 0
