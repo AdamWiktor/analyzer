@@ -5,4 +5,10 @@ services:
       context: ./
       dockerfile: ./analyzer.dockerfile
     ports:
-      - 8080:8080
+      - "8080:8080"
+  proxy:
+    build: ./haproxy
+    ports:
+      - "9000:9000"
+      - "10000:10000"
+    privileged: true
