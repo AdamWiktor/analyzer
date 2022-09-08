@@ -26,8 +26,8 @@ fun createHeader(
         if (origin != null) "origin" else null,
         if (brandId != null) "brand_id" else null,
         if (categoryId != null) "category_id" else null,
-        aggregates[0].name,
-        if (aggregates.size == 2) aggregates[1].name else null
+        aggregates[0].name.lowercase(),
+        if (aggregates.size == 2) aggregates[1].name.lowercase() else null
     )
         .filter(Objects::nonNull)
         .map { it!! }

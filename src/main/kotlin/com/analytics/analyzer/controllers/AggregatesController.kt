@@ -27,8 +27,8 @@ class AggregatesController {
         @RequestParam(value = "category_id", required = false) categoryId: String?
     ): AggregateResponse {
         val timeRanges = timeRange.split("_")
-        val begin = Instant.parse(timeRanges[0] + "Z").toEpochMilli()
-        val end = Instant.parse(timeRanges[1] + "Z").toEpochMilli()
+        val begin = Instant.parse(timeRanges[0] + "Z").epochSecond
+        val end = Instant.parse(timeRanges[1] + "Z").epochSecond
         val records = aggregatesService.getAggregates(begin, end, action, origin, brandId, categoryId)
         return AggregateResponse(
             createHeader(origin, brandId, categoryId, aggregates),

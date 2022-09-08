@@ -11,20 +11,33 @@ typealias AggregateBucket = MutableMap<AggregateKey, AggregateValue>
 
 object AggregatesSingleton {
 
-    private const val AGGREGATES_ARRAY_SIZE = 10
+    private var bucket1: AggregateBucket = HashMap()
 
-    val buckets: Array<AggregateBucket> = Array(AGGREGATES_ARRAY_SIZE) { HashMap() }
+    private var bucket2: AggregateBucket = HashMap()
 
-    @Volatile
-    var firstDataBucketBeginTime: Long = 0
+    private var currentBucket = 1
 
-    @Volatile
-    var timestampSecondsMax: Long = 0
+    @Synchronized
+    fun putData(key: AggregateKey, price: Int) {
+        val bucket =
+            if (currentBucket == 1)
+                bucket1
+            else
+                bucket2
+        val value = bucket[key] ?: AggregateValue(0, 0)
+        value.count++
+        value.sumPrice += price
+        bucket[key] = value
+    }
 
-    @Volatile
-    var processingBegan = false
-
-    fun nextIndex(index: Int) = advanceIndex(index, 1)
-
-    fun advanceIndex(index: Int, advance: Int) = (index + advance) % AGGREGATES_ARRAY_SIZE
+    @Synchronized
+    fun swapAndGetOldWriteBucket(): AggregateBucket {
+        if (currentBucket == 1) {
+            currentBucket = 2
+            return bucket1
+        } else {
+            currentBucket = 1
+            return bucket2
+        }
+    }
 }

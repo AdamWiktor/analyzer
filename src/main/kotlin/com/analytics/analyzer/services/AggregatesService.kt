@@ -38,10 +38,12 @@ class AggregatesService {
         brandId: String?,
         categoryId: String?
     ): List<AggregateRecord> {
-        val keys: List<String> = ((begin / 60) until (end / 60))
+        val keys: List<String> = ((begin / 60) until  (end / 60))
             .map { Json.encodeToString(AggregateKey(it * 60, action, origin, brandId, categoryId)) }
+        // TODO batch read policy
         val entities =
             aerospikeTemplate.findByIds(GroupedKeys.builder().entityKeys(AggregateRecord::class.java, keys).build())
-        return entities.getEntitiesByClass(AggregateRecord::class.java)
+        val records = entities.getEntitiesByClass(AggregateRecord::class.java).associateBy { it.id }
+        return keys.map { records[it] ?: AggregateRecord(it, 0, 0) }
     }
 }
