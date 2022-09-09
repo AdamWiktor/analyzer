@@ -17,7 +17,7 @@ private val logger = KotlinLogging.logger {}
 class AggregateScheduler {
 
     companion object {
-        private const val EXPIRATION_SECONDS: Long = 60
+        private const val EXPIRATION_SECONDS: Long = 60 * (24 * 60 + 30)  // 24,5h
     }
 
     @Autowired
