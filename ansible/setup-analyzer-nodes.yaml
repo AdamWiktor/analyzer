@@ -1,5 +1,5 @@
 ---
-- name: Checkout repository
+- name: Setup analyzer nodes
   any_errors_fatal: true
   hosts: analyzer
   remote_user: root
