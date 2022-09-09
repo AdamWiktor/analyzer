@@ -33,7 +33,7 @@ class AerospikeConfiguration : AbstractAerospikeDataConfiguration() {
         clientPolicy.writePolicyDefault.totalTimeout = 35000
         clientPolicy.writePolicyDefault.maxRetries = 2
         clientPolicy.writePolicyDefault.commitLevel = CommitLevel.COMMIT_MASTER
-        clientPolicy.batchPolicyDefault.maxConcurrentThreads = 4
+        clientPolicy.batchPolicyDefault.maxConcurrentThreads = 5
         return clientPolicy
     }
 }

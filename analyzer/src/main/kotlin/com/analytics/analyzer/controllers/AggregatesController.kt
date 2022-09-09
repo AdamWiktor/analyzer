@@ -32,7 +32,7 @@ class AggregatesController {
         val records = aggregatesService.getAggregates(begin, end, action, origin, brandId, categoryId)
         return AggregateResponse(
             createHeader(origin, brandId, categoryId, aggregates),
-            records.map { createRow(origin, brandId, categoryId, aggregates, it) }
+            records.map { createRow(it.second, action, origin, brandId, categoryId, aggregates, it.first) }
         )
     }
 }

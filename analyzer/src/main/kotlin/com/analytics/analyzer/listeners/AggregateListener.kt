@@ -9,12 +9,15 @@ import mu.KotlinLogging
 import org.springframework.kafka.annotation.KafkaHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
+import java.security.MessageDigest
 
 private val logger = KotlinLogging.logger {}
 
 @Component
 @KafkaListener(topics = ["aggr"])
 class AggregateListener {
+
+    private val md: MessageDigest = MessageDigest.getInstance("SHA3-256")
 
     @KafkaHandler
     fun handleUserTagEvent(message: String) {
@@ -26,6 +29,7 @@ class AggregateListener {
             for (brandId in brandIds) {
                 for (categoryId in categoryIds) {
                     val key = AggregateKey((event.timeSeconds / 60) * 60, event.action, origin, brandId, categoryId)
+                        .uniqueHash(md)
                     AggregatesSingleton.putData(key, event.price)
                 }
             }

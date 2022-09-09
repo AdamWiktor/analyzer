@@ -1,10 +1,9 @@
 package com.analytics.analyzer.singletons
 
-import com.analytics.analyzer.objects.AggregateKey
 import com.analytics.analyzer.objects.AggregateValue
 
 
-typealias AggregateBucket = MutableMap<AggregateKey, AggregateValue>
+typealias AggregateBucket = MutableMap<String, AggregateValue>
 
 /**
  * This object is a singleton, because it is aa synchronization point between
@@ -21,7 +20,7 @@ object AggregatesSingleton {
     private var currentBucket = 1
 
     @Synchronized
-    fun putData(key: AggregateKey, price: Int) {
+    fun putData(key: String, price: Int) {
         val bucket =
             if (currentBucket == 1)
                 bucket1

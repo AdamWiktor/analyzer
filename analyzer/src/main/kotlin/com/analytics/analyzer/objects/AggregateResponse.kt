@@ -1,8 +1,6 @@
 package com.analytics.analyzer.objects
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -35,13 +33,14 @@ fun createHeader(
 }
 
 fun createRow(
+    timeSeconds: Long,
+    action: Action,
     origin: String?,
     brandId: String?,
     categoryId: String?,
     aggregates: List<Aggregate>,
     record: AggregateRecord
 ): List<String> {
-    val key = Json.decodeFromString<AggregateKey>(record.id)
     val aggregate1 = if (aggregates[0] == Aggregate.COUNT)
         record.count.toString()
     else if (aggregates[0] == Aggregate.SUM_PRICE)
@@ -55,8 +54,8 @@ fun createRow(
     else
         null
     return sequenceOf(
-        formatter.format(Instant.ofEpochSecond(key.timeSeconds)),
-        key.action.name,
+        formatter.format(Instant.ofEpochSecond(timeSeconds)),
+        action.name,
         origin,
         brandId,
         categoryId,

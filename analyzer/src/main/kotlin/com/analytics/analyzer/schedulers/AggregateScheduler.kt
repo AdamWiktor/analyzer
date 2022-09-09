@@ -16,6 +16,10 @@ private val logger = KotlinLogging.logger {}
 @Component
 class AggregateScheduler {
 
+    companion object {
+        private const val EXPIRATION_SECONDS: Long = 60
+    }
+
     @Autowired
     lateinit var aerospikeTemplate: AerospikeTemplate
 
@@ -23,8 +27,7 @@ class AggregateScheduler {
     fun sendAggregatesToAerospike() {
         val bucket = AggregatesSingleton.swapAndGetOldWriteBucket()
         for ((key, value) in bucket) {
-            val record = AggregateRecord(Json.encodeToString(key), 0, 0)
-            // TODO expiration/ttl=25h
+            val record = AggregateRecord(key, EXPIRATION_SECONDS, 0, 0)
             aerospikeTemplate.add(record, mapOf(Pair("count", value.count), Pair("sumPrice", value.sumPrice)))
         }
         logger.info { "Scheduler added ${bucket.size} aggregates" }
