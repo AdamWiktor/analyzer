@@ -46,7 +46,7 @@ class AggregatesService {
             .findByIds(keys, AggregateRecord::class.java).associateBy { it.id }
         return keys.asSequence()
             .zip(((begin / 60) until (end / 60)).asSequence())
-            .map { records.getOrDefault(it.first, AggregateRecord(it.first, 0, 0)) to it.second }
+            .map { records.getOrDefault(it.first, AggregateRecord(it.first, 0, 0, 0)) to it.second }
             .toList()
     }
 }
