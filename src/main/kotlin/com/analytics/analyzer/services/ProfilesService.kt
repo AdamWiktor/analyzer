@@ -2,6 +2,7 @@ package com.analytics.analyzer.services
 
 import com.aerospike.client.AerospikeException
 import com.aerospike.client.ResultCode
+import com.aerospike.client.policy.CommitLevel
 import com.aerospike.client.policy.GenerationPolicy
 import com.aerospike.client.policy.WritePolicy
 import com.analytics.analyzer.objects.Action
@@ -45,6 +46,10 @@ class ProfilesService {
                     profile.buys
             val newProfile = Profile(profile.cookie, profile.generation, views, buys)
             val writePolicy = WritePolicy()
+            writePolicy.socketTimeout = 15000
+            writePolicy.totalTimeout = 35000
+            writePolicy.maxRetries = 2
+            writePolicy.commitLevel = CommitLevel.COMMIT_MASTER
             writePolicy.generation = newProfile.generation
             writePolicy.generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL
             try {
