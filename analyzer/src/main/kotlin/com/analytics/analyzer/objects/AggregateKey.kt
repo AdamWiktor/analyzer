@@ -1,6 +1,5 @@
 package com.analytics.analyzer.objects
 
-import kotlinx.serialization.Serializable
 import java.security.MessageDigest
 
 data class AggregateKey(
@@ -20,7 +19,7 @@ data class AggregateKey(
         md.update(brandId?.toByteArray() ?: EMPTY_BYTE_ARRAY)
         md.update(SPACING_BYTE_ARRAY)
         md.update(categoryId?.toByteArray() ?: EMPTY_BYTE_ARRAY)
-        return md.digest().toString()
+        return String(md.digest())
     }
 }
 
