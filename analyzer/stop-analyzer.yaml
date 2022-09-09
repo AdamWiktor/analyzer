@@ -8,6 +8,6 @@
     - name: Stop analyzer
       become: true
       become_user: root
-      shell: cd analyzer && ./stop-analyzer.sh
+      shell: cd analyzer/analyzer && ./stop-analyzer.sh
       register: stop
       failed_when: stop.rc != 0

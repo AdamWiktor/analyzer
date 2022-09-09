@@ -1,6 +1,5 @@
 package com.analytics.analyzer.controllers
 
-import com.analytics.analyzer.objects.Action
 import com.analytics.analyzer.objects.Profile
 import com.analytics.analyzer.objects.UserTag
 import com.analytics.analyzer.services.ProfilesService

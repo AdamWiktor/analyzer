@@ -9,7 +9,6 @@ import org.springframework.data.aerospike.core.AerospikeTemplate
 import org.springframework.data.aerospike.core.model.GroupedKeys
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.RequestParam
 
 private val logger = KotlinLogging.logger {}
 
@@ -40,7 +39,6 @@ class AggregatesService {
     ): List<AggregateRecord> {
         val keys: List<String> = ((begin / 60) until  (end / 60))
             .map { Json.encodeToString(AggregateKey(it * 60, action, origin, brandId, categoryId)) }
-        // TODO batch read policy
         val entities =
             aerospikeTemplate.findByIds(GroupedKeys.builder().entityKeys(AggregateRecord::class.java, keys).build())
         val records = entities.getEntitiesByClass(AggregateRecord::class.java).associateBy { it.id }

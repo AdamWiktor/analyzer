@@ -3,12 +3,15 @@ package com.analytics.analyzer.singletons
 import com.analytics.analyzer.objects.AggregateKey
 import com.analytics.analyzer.objects.AggregateValue
 
-/**
- * This object is a singleton, TODO
- */
 
 typealias AggregateBucket = MutableMap<AggregateKey, AggregateValue>
 
+/**
+ * This object is a singleton, because it is aa synchronization point between
+ * { @link AggregateScheduler } and { @link AggregateListener }.
+ * Both those classes have only one instance and are run in two separate threads.
+ * This ensures that reading and writing to this class it thread safe.
+ */
 object AggregatesSingleton {
 
     private var bucket1: AggregateBucket = HashMap()

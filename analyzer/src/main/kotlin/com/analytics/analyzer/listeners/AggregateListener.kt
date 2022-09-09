@@ -1,7 +1,6 @@
 package com.analytics.analyzer.listeners
 
 import com.analytics.analyzer.objects.AggregateKey
-import com.analytics.analyzer.objects.AggregateValue
 import com.analytics.analyzer.objects.UserTagEvent
 import com.analytics.analyzer.singletons.AggregatesSingleton
 import kotlinx.serialization.decodeFromString

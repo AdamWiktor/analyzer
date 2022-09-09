@@ -15,13 +15,13 @@
     - name: Create docker image
       become: true
       become_user: root
-      shell: cd analyzer && ./setup-analyzer.sh
+      shell: cd analyzer/analyzer && ./setup-analyzer.sh
       register: setup
       failed_when: setup.rc != 0
 
     - name: Run analyzer
       become: true
       become_user: root
-      shell: cd analyzer && ./start-analyzer.sh
+      shell: cd analyzer/analyzer && ./start-analyzer.sh
       register: start
       failed_when: start.rc != 0
